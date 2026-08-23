@@ -46,8 +46,8 @@ Todos os milestones e reviews devem preservar estes gates:
 
 - No início da inspeção, o diretório ainda não era um repositório Git e continha apenas `INPUTS.md`, `SHA256SUMS` e os originais; esta execução acrescentou somente este roadmap.
 - Os 14 hashes conferem: norma, workbook e 12 PDFs do AY0410.
-- **Boundary público:** os 14 bytes reais são privados/licenciados e não existem na árvore Git rastreada após REPO-003B. O repositório mantém inventário, hashes, contratos, código e fixtures sintéticas. O histórico antigo ainda os contém até OPR-PUBLIC-001.
-- O `.gitignore` sozinho não remove objetos do histórico atual. O remoto atual deve permanecer privado; depois da migração será criado um histórico público novo a partir da árvore sanitizada, sem ancestrais contendo os originais.
+- **Boundary público:** os 14 bytes reais são privados/licenciados e não existem neste histórico público. O repositório mantém somente inventário, hashes, contratos, código e fixtures sintéticas. O histórico anterior permanece separado e privado.
+- OPR-PUBLIC-001 criou um histórico público novo a partir da árvore sanitizada, sem ancestrais contendo os originais. O repositório histórico anterior não deve ser conectado a este remoto.
 - As 12 pranchas são PDFs de uma página, em formatos grandes e dimensões heterogêneas.
 - Dez pranchas declaram produtor AutoCAD `pdfplot11.hdi`; duas declaram `PDFium`.
 ### 3.2 Norma fornecida
@@ -257,8 +257,7 @@ deve:
 6. manter o remoto histórico original privado ou removê-lo segundo uma decisão
    operacional separada.
 
-OPR-PUBLIC-001 é uma cerimônia manual. REPO-003A/REPO-003B não autorizam criar remoto,
-force-push, mudar visibilidade, apagar artifacts ou publicar automaticamente.
+OPR-PUBLIC-001 foi concluída manualmente: o remoto público nasceu com um único commit raiz sanitizado (`d8e6201`). O histórico privado anterior continua fora deste repositório.
 
 ## 6. Status e dependências
 
@@ -335,7 +334,7 @@ As fases indicam capacidade, não uma fila estritamente serial. Tasks independen
   - ensaio local temporário (`git archive` HEAD + `validate-artifact-zip.py`) → 55 entradas de arquivo, 21 790 588 bytes, SHA-256 `8fd54f9229b0dc0a38ced7b75455d13ed08d655f9f4e175565347889f0ab6960` (commit-base `de577743`, árvore **sem** arquivos untracked deste candidate);
   - nenhuma rede nem execução remota durante a implementação; após merge do operador, GitHub Actions run `32382824927` para `179a644` terminou `success` em 2026-08-20.
 - **Expected artifacts:** `.github/workflows/validate-and-package.yml`, `scripts/ci/validate-artifact-zip.py`, `tests/test_ci_workflow.py`, README/guias/ROADMAP/task atualizados — **integrados na branch canônica**.
-- **Riscos residuais:** artifact acessível a leitores do repositório privado durante a retenção; paths Unicode exigem `core.quotePath=false` na confrontação Git/ZIP; cada commit futuro ainda depende dos gates e da disponibilidade do GitHub Actions.
+- **Riscos residuais:** artifact sujeito às regras de acesso e retenção do GitHub; paths Unicode exigem `core.quotePath=false` na confrontação Git/ZIP; cada commit futuro ainda depende dos gates e da disponibilidade do GitHub Actions.
 
 #### REPO-003A — Preparação segura de fixtures privadas
 
@@ -381,8 +380,7 @@ As fases indicam capacidade, não uma fila estritamente serial. Tasks independen
   localmente na branch canônica**.
 - **Riscos residuais:** checkouts/histórico privados ainda contêm os originais;
   CI/artifact ainda empacota `inputs/` rastreados até REPO-003B (workflow
-  CI-001 inalterado, com `sha256sum` preservado no YAML); OPR-PUBLIC-001 permanece
-  obrigatório antes de publicação; leftovers `.private-*` só
+  CI-001 inalterado, com `sha256sum` preservado no YAML); OPR-PUBLIC-001 era obrigatório antes da publicação e agora está concluído; leftovers `.private-*` só
   apareceriam em crash extremo a meio de rename (não cobertos por
   `/inputs/private/` no `.gitignore`).
 - **Relevant source/reference:** §§4.1 e 5.2;
@@ -390,12 +388,11 @@ As fases indicam capacidade, não uma fila estritamente serial. Tasks independen
 
 #### REPO-003B — Remoção dos originais e árvore publicável
 
-- **Status:** `IMPLEMENTED_PENDING_COMMIT` — implementação validada localmente; commit, push e publicação permanecem com o operador.
+- **Status:** `COMPLETE` — integrada no snapshot que originou o commit raiz público `d8e6201`.
 - **Objective:** remover os 14 binários privados do tree rastreado e adaptar
   aplicação, gates e CI ao boundary já integrado.
 - **Why it exists:** a árvore publicável não pode conter bytes reais; o
-  histórico privado antigo será substituído por um histórico público novo em
-  OPR-PUBLIC-001.
+  histórico privado antigo foi substituído, para fins de publicação, pelo histórico novo criado em OPR-PUBLIC-001.
 - **Scope:** remoções na árvore de trabalho (sem staging obrigatório para o gate),
   mapeamento lógico→físico em `nbr12721.sources`, gate da árvore pública,
   CI/artifact sanitizados e documentação.
@@ -418,10 +415,8 @@ As fases indicam capacidade, não uma fila estritamente serial. Tasks independen
   - unittest discover → ver contagem no relatório da task;
   - `git diff --check` → OK;
   - ensaio ZIP `CANDIDATE` → entradas = snapshot, zero privados.
-- **Expected artifacts:** árvore de trabalho sanitizada; checklist OPR-PUBLIC-001
-  ainda pendente (histórico/remoto).
-- **Riscos residuais:** histórico e remoto atuais ainda privados/contêm
-  objetos antigos; integração ainda não ocorreu; OPR-PUBLIC-001 bloqueante.
+- **Expected artifacts:** árvore sanitizada integrada no commit raiz público; OPR-PUBLIC-001 concluída.
+- **Riscos residuais:** o repositório histórico anterior ainda contém os originais e deve permanecer separado e privado.
 - **Relevant source/reference:** REPO-003A; §§4.1 e 5.2; inventário público.
 
 #### ARCH-001 — Envelopes e versionamento dos artefatos
@@ -440,12 +435,12 @@ As fases indicam capacidade, não uma fila estritamente serial. Tasks independen
 
 #### NBR-000 — Registro de fonte e referências normativas
 
-- **Status:** `PLANNED` — bloqueada até integração de REPO-003B e configuração privada do operador.
+- **Status:** `READY` — REPO-003B e OPR-PUBLIC-001 concluídas; exige configuração privada válida do operador.
 - **Objective:** criar índice de regras com identidade normativa rastreável.
 - **Why it exists:** toda fórmula/taxonomia deve citar a versão e seção que lhe dá autoridade.
 - **Scope:** hash da norma, edição/versão corrigida, seção, página física/impressa, tipo da regra, status de formalização e notas de errata.
 - **Out of scope:** transcrever a norma inteira ou implementar os Quadros.
-- **Dependencies:** REPO-001, REPO-002, REPO-003B.
+- **Dependencies:** REPO-001, REPO-002, REPO-003B e OPR-PUBLIC-001.
 - **Implementation boundary:** catálogo de referências; trechos extensos/licenciados não são redistribuídos nos artefatos.
 - **Acceptance criteria:** distingue 2006 de Errata 3/2021; uma regra sem referência não pode ser marcada implementada; páginas físicas e impressas não se confundem.
 - **Tests/gates:** schema, IDs duplicados, referência inexistente e digest da fonte.
@@ -1018,10 +1013,11 @@ Estado da infraestrutura e sequência planejada:
 2. `DOCS-001` — documentação inicial e enforcement contínuo (**integrada em 2026-08-20 no commit `03098d5`**);
 3. `CI-001` — validação privada e `artifact.zip` (**integrada; primeira execução remota verde em 2026-08-20**);
 4. `REPO-003A` — preparação segura de fixtures privadas (**integrada localmente em 2026-08-20 no commit `eff97c1`**);
-5. `REPO-003B` — remoção dos originais e árvore publicável (**candidate_complete em 2026-08-20; integração pendente do operador**);
-6. `NBR-000` — registro de referências normativas (**materializada, bloqueada por integração de REPO-003B**);
-7. `ARCH-001` — envelopes e versionamento;
-8. `PDF-001` — profiler do corpus, após REPO-002/REPO-003B/ARCH-001;
-9. `XLSX-001` — mapa formal do template, após REPO-002/REPO-003B/ARCH-001.
+5. `REPO-003B` — remoção dos originais e árvore publicável (**concluída; presente no commit raiz público `d8e6201`**);
+6. `OPR-PUBLIC-001` — histórico público sanitizado (**concluída**);
+7. `NBR-000` — registro de referências normativas (**READY; fixtures privadas exigidas**);
+8. `ARCH-001` — envelopes e versionamento;
+9. `PDF-001` — profiler do corpus, após REPO-002/REPO-003B/ARCH-001;
+10. `XLSX-001` — mapa formal do template, após REPO-002/REPO-003B/ARCH-001.
 
 `CORE-001` é a primeira task de domínio e fica pronta assim que `ARCH-001` e `NBR-000` estiverem integradas. `NBR-002`, `NBR-003`, `NBR-004`, exportação XLSX, OCR e E2E não devem ser antecipadas.

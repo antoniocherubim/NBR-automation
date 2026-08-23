@@ -81,9 +81,7 @@ Não altere bytes para “passar” em teste, ZIP ou policy.
 
 ### Árvore sanitizada ≠ histórico sanitizado
 
-Os 14 PDFs/XLSX saíram do working tree rastreado, mas permanecem em commits
-antigos. **Não** torne o remoto atual público. OPR-PUBLIC-001 cria o histórico
-novo.
+Este repositório público nasceu sem os commits antigos que continham os 14 PDFs/XLSX. O repositório histórico anterior deve permanecer privado e separado.
 
 ### Commit e integração são do operador
 
@@ -93,7 +91,7 @@ novo.
 
 A workflow **Validate and Package** está **Disponível**. Sua primeira execução
 no GitHub terminou com sucesso após o merge do operador (baseline CI-001).
-Neste candidate, a workflow foi adaptada para árvore sanitizada:
+A workflow opera sobre a árvore pública sanitizada:
 
 1. corre `validate-gate`, `compileall`, `unittest`, `git diff --check` e
    `validate-public-tree.py --commit "$GITHUB_SHA"`;

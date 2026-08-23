@@ -12,8 +12,8 @@ decisões explícitas para cada valor exportado.
 > O boundary de fixtures privadas (`REPO-003A` + `REPO-003B`) está **disponível**
 > na árvore atual: inventário público, materialização em `inputs/private/` e
 > árvore Git **sem** os 14 bytes reais rastreados.
-> O histórico antigo **ainda contém** esses bytes; somente OPR-PUBLIC-001
-> cria um histórico público novo. Não altere a visibilidade do remoto atual.
+> OPR-PUBLIC-001 criou este histórico público novo, com um único commit raiz
+> sanitizado. O repositório histórico anterior continua separado e privado.
 
 ## O que já funciona
 
@@ -27,9 +27,9 @@ decisões explícitas para cada valor exportado.
 | Gate da árvore pública | **Disponível** | `scripts/ci/validate-public-tree.py` (commit ou snapshot candidato) |
 | Documentação inicial para usuários | **Disponível** | README, guias em `docs/` e teste stdlib de estrutura/links |
 | Workflow CI validate-and-package | **Disponível** | Gates públicos sem store; `artifact.zip` só com árvore sanitizada |
-| Publicação / histórico sanitizado | **Bloqueada** | OPR-PUBLIC-001 após integração desta árvore |
+| Publicação / histórico sanitizado | **Disponível** | OPR-PUBLIC-001 concluída; histórico público independente |
 
-Detalhes técnicos: tasks `REPO-001` … `REPO-003B` — ver [ROADMAP.md](ROADMAP.md).
+Detalhes técnicos: tasks `REPO-001` … `REPO-003B` e `OPR-PUBLIC-001` — ver [ROADMAP.md](ROADMAP.md).
 
 ## O que ainda não funciona
 
@@ -39,9 +39,9 @@ Detalhes técnicos: tasks `REPO-001` … `REPO-003B` — ver [ROADMAP.md](ROADMA
 | Motor normativo e cálculo dos Quadros I/II/IV-B | **Planejada** |
 | Preenchimento e exportação do template XLSX | **Planejada** |
 | Pipeline ponta a ponta até `resultado.xlsx` | **Planejada** |
-| Registro de referências normativas | **Bloqueada** até integração de REPO-003B |
+| Registro de referências normativas | **Pronta para execução** (NBR-000) |
 | Interface gráfica ou CLI de produto | **Planejada** |
-| Remoto/histórico publicável | **Bloqueada** (OPR-PUBLIC-001) |
+| Remoto/histórico público | **Disponível** |
 
 Consulte o [roadmap completo](ROADMAP.md) para milestones, dependências e gates.
 
@@ -112,8 +112,8 @@ docs). **Não** inclui norma, template nem plantas. Retenção: **7 dias**.
 | Aspecto | Estado |
 |---------|--------|
 | Workflow versionada | **Disponível** |
-| Artifact sanitizado | **Disponível** após integração da REPO-003B |
-| Histórico Git sanitizado | **Bloqueada** (OPR-PUBLIC-001) |
+| Artifact sanitizado | **Disponível** |
+| Histórico Git público sanitizado | **Disponível** (OPR-PUBLIC-001) |
 
 **Como baixar após uma execução bem-sucedida:**
 
@@ -144,8 +144,7 @@ bash scripts/private-fixtures/configure.sh --check
 O registro `nbr12721.sources` recebe do chamador um mapeamento total
 ID lógico → `materialize_path`; não lê XDG nem importa o mecanismo de configuração privada.
 
-**Árvore sanitizada ≠ histórico sanitizado.** Este repositório ainda não pode
-ser tornado público. OPR-PUBLIC-001 cria o histórico novo.
+**Histórico público sanitizado.** Este repositório nasceu de um snapshot sanitizado e não possui os ancestrais privados. O repositório histórico anterior deve permanecer separado e privado.
 
 ## Mapa da documentação
 
@@ -158,7 +157,7 @@ ser tornado público. OPR-PUBLIC-001 cria o histórico novo.
 | [docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md) | Operadores | Falhas conhecidas e recuperação |
 | [docs/PRIVACY.md](docs/PRIVACY.md) | Todos | Cuidados com dados sensíveis |
 | [ROADMAP.md](ROADMAP.md) | Planejamento | Milestones, tasks e gates |
-| [docs/tasks/REPO-003B.md](docs/tasks/REPO-003B.md) | Desenvolvimento | Evidência desta migração |
+| [docs/tasks/NBR-000.md](docs/tasks/NBR-000.md) | Desenvolvimento | Próxima task pronta: catálogo de referências normativas |
 
 ## Como relatar um problema
 

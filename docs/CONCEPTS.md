@@ -27,8 +27,7 @@ path físico; o módulo genérico não lê XDG nem o store. Alterar bytes quebra
 verificação e invalida qualquer manifest derivado.
 
 Após REPO-003B, os originais **não** estão mais na árvore Git rastreada. A
-imutabilidade e a verificação por SHA-256 permanecem. OPR-PUBLIC-001
-(**Bloqueada** até cerimônia manual) é o que sanitiza o histórico.
+imutabilidade e a verificação por SHA-256 permanecem. OPR-PUBLIC-001 criou o histórico público sanitizado; o histórico privado anterior permanece separado.
 
 ## Evidência
 
@@ -76,7 +75,7 @@ voláteis e paths absolutos do computador **não** entram no conteúdo estável.
 
 **Gates** são verificações bloqueantes: consistência do inventário público,
 gate da árvore pública, testes, diff sem whitespace acidental, documentação
-atualizada. Falhar um gate impede integração do candidate. A CI pública não
+atualizada. Falhar um gate impede integração da alteração. A CI pública não
 depende do store privado.
 
 ## Tasks e integração

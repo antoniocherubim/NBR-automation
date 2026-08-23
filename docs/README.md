@@ -26,7 +26,7 @@ Todos os links são relativos e funcionam offline.
 
 ## Quero acompanhar o desenvolvimento
 
-- [Registro das tasks](tasks/REPO-003B.md) — especificações e evidências das implementações
+- [Próxima task](tasks/NBR-000.md) — especificação pronta do catálogo normativo
 - [Roadmap](../ROADMAP.md) — ordem, dependências e estado das próximas entregas
 
 ## Estado das funcionalidades
@@ -35,10 +35,10 @@ Todos os links são relativos e funcionam offline.
 |------|--------|
 | Verificação de fontes e manifest | **Disponível** |
 | Adapter N+1 de fixtures privadas | **Disponível** |
-| Árvore Git sem bytes privados | **Disponível** (`REPO-003B` candidate) |
+| Árvore Git sem bytes privados | **Disponível** (REPO-003B) |
 | Documentação de usuário | **Disponível** |
 | CI e artifact.zip sanitizado | **Disponível** (sem store; sem `sha256sum -c`) |
-| Histórico / remoto publicável | **Bloqueada** (`OPR-PUBLIC-001`) |
+| Histórico / remoto público | **Disponível** (OPR-PUBLIC-001) |
 | Extração PDF / OCR | **Planejada** |
 | Motor NBR e Quadros | **Planejada** |
 | Exportação XLSX | **Planejada** |

@@ -1,12 +1,6 @@
 # Privacidade e classificação de dados
 
-Este repositório é **privado**. Privacidade **não** substitui controle de
-acesso: apenas pessoas autorizadas devem clonar ou receber cópias.
-
-Ele **não está pronto para mudança de visibilidade**. Os originais aparecem no
-histórico desde o commit inicial; `.gitignore` ou deleção no `HEAD` não os
-remove de commits antigos. REPO-003B sanitizou a **árvore** rastreada;
-OPR-PUBLIC-001 (cerimônia manual) criará um **histórico** público novo.
+Este repositório é **público** e nasceu de um único commit raiz sanitizado criado por OPR-PUBLIC-001. Os originais licenciados nunca fizeram parte deste histórico. O repositório histórico anterior permanece separado e privado.
 
 ## Inventário público vs bytes privados
 
@@ -47,16 +41,13 @@ pessoais das pranchas, path absoluto real do store.
 - A CI **não** consulta store, secret ou rede adicional e **não** executa
   `sha256sum -c SHA256SUMS`. A workflow está **Disponível**; a primeira
   execução remota do baseline CI-001 terminou com sucesso após o merge do
-  operador. Após integração de REPO-003B, o artifact passará a refletir somente
-  a árvore sanitizada.
+  operador. O artifact reflete somente a árvore sanitizada.
 - `artifact.zip` contém somente a árvore sanitizada. **Não** inclui norma,
   template ou plantas. Retenção: **7 dias**.
-- Quem tem leitura no repositório privado pode baixar o artifact enquanto
-  existir — ainda assim trate-o como material interno (código + inventários).
+- Artifacts seguem as regras de acesso do GitHub e contêm apenas código, inventários e documentação sanitizados.
 - Cópias em `inputs/private/` **não** entram em `git archive`/artifact.
 - O artifact **não** equivale a histórico sanitizado.
 
 ## Minimização
 
-Até OPR-PUBLIC-001: **mantenha o remoto atual privado**. Árvore limpa no `HEAD`
-candidato não apaga objetos de commits anteriores.
+O repositório histórico anterior deve permanecer privado. Nunca envie seus commits, branches, tags ou artifacts para este remoto público.

@@ -1,6 +1,6 @@
 ---
 id: REPO-003B
-status: implemented_pending_commit
+status: complete
 depends_on:
   - REPO-003A
 private_fixtures: required
@@ -159,7 +159,7 @@ Atualizar `README.md`, `ROADMAP.md`, `INPUTS.md`, `docs/PRIVACY.md`,
 - que testes públicos e CI não dependem do store;
 - que tasks privadas usam cópias verificadas em `inputs/private/`;
 - que o artifact contém somente arquivos rastreados sanitizados;
-- que o remoto atual ainda não pode ser tornado público por causa do histórico;
+- que, naquele momento, o remoto histórico ainda não podia ser tornado público;
 - que OPR-PUBLIC-001, e não esta task, cria o novo histórico publicável.
 
 A documentação do produto não deve explicar a operação de ferramentas externas
@@ -250,8 +250,7 @@ arquivos rastreados.
     histórico e entrada sob `inputs/private/` usando somente dados sintéticos
     ou digests públicos.
 13. Nenhum comportamento de domínio, PDF, OCR, XLSX ou NBR é implementado.
-14. A documentação distingue árvore sanitizada de histórico sanitizado e
-    mantém OPR-PUBLIC-001 bloqueante.
+14. A documentação distingue árvore sanitizada de histórico sanitizado e registra OPR-PUBLIC-001 como bloqueante até a cerimônia posterior.
 15. Nenhum commit, push, merge, deploy, mudança de visibilidade ou próxima task
     é executado automaticamente.
 
@@ -329,11 +328,9 @@ Gates negativos obrigatórios:
 
 ## Conclusão e relatório
 
-**Status final:** `implemented_pending_commit` (2026-08-23).
+**Status final:** `complete` — integrada na árvore que originou o commit raiz público `d8e6201`.
 
-Não declara o repositório `public` nem `history_sanitized`. Integração
-(commit/push/merge), mudança de visibilidade e OPR-PUBLIC-001 permanecem com o
-operador. Nenhuma rede, alteração do store, commit, push, merge ou próxima task foi executada automaticamente.
+A implementação foi integrada no snapshot que originou o histórico público sanitizado em OPR-PUBLIC-001. Durante o candidate original, nenhuma rede, alteração do store, commit, push, merge ou próxima task foi executada automaticamente.
 
 ### Arquivos removidos (14)
 
@@ -370,7 +367,7 @@ Deleções no working tree (sem `git add` / sem commit), IDs lógicos:
 | `.agent-loop/executor.md` | `4233878a9fa15b75d6c64a6db18037fb67c56f112319170aacd9a92a5d10c653` |
 | `.agent-loop/reviewer.md` | `23391ae8a634b5a9862b913eab9fd5a8764e67393838d454750940009be0b05a` |
 
-### Varredura da árvore pública (snapshot candidato)
+### Varredura da árvore pública (snapshot candidato original)
 
 ```text
 [public-tree] mode=candidate files=65 private_path_hits=0 historical_hits=0 digest_hits=0
@@ -379,8 +376,7 @@ Deleções no working tree (sem `git add` / sem commit), IDs lógicos:
 - paths sob `inputs/private/` rastreados: **0**
 - paths históricos privados no snapshot: **0**
 - blobs com digest de fixture privada: **0**
-- `validate-public-tree.py --commit HEAD` ainda **falha** (esperado: HEAD
-  pré-integração ainda lista os 14 originais)
+- No candidate original, o commit-base ainda falhava por conter os 14 originais. Após OPR-PUBLIC-001, `validate-public-tree.py --commit HEAD` passa no commit raiz público
 
 ### Fixtures privadas
 
@@ -407,13 +403,11 @@ privada materializada: 14/14 + registry com mapping.
 - Workflow removeu `sha256sum -c SHA256SUMS`; adicionou
   `validate-public-tree.py --commit` antes do archive.
 - Summary afirma árvore sanitizada e que o artifact **não** sanitiza histórico.
-- Docs distinguem árvore sanitizada de histórico sanitizado; OPR-PUBLIC-001
-  permanece **Bloqueada**.
+- Docs distinguem árvore sanitizada de histórico sanitizado; OPR-PUBLIC-001 foi concluída.
 
-### Riscos residuais / checklist OPR-PUBLIC-001
+### Estado após OPR-PUBLIC-001
 
-- Histórico Git atual e remoto ainda contêm os 14 objetos.
-- Commit desta implementação ainda não ocorreu.
-- Pendente do operador: revisar/integrar; executar OPR-PUBLIC-001 (histórico
-  novo sem ancestrais privados); não force-push no remoto atual; não alterar
-  visibilidade antes da cerimônia.
+- Este repositório público possui histórico novo sem os objetos privados.
+- O commit raiz público auditado é `d8e6201`.
+- O repositório histórico anterior continua separado e privado.
+- Os originais permanecem somente no store privado externo.

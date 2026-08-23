@@ -36,8 +36,7 @@ rastreados. Diferente de **histórico sanitizado** (OPR-PUBLIC-001).
 Marcador obrigatório no front matter das tasks novas: `none` ou `required`.
 Ausência da **chave** em tasks históricas equivale a `none`. Declaração vazia
 (`private_fixtures:`), duplicada, indentada/mal posicionada ou malformada
-**falha** (não desativa o corpus em silêncio). Controla se o bootstrap N+1
-materializa o corpus privado.
+**falha** (não desativa o corpus em silêncio). Controla se a preparação local materializa o corpus privado.
 
 ### store privado
 

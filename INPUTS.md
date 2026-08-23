@@ -43,5 +43,5 @@ store externo e as cópias materializadas são read-only. Alterar bytes para
 ## Privacidade e histórico
 
 Remover os originais do `HEAD` **não** sanitiza o histórico Git antigo. O
-remoto atual permanece privado até a cerimônia manual **OPR-PUBLIC-001**.
+repositório histórico anterior permanece separado e privado. OPR-PUBLIC-001 criou este repositório público sem transportar seus ancestrais.
 Detalhes: [docs/PRIVACY.md](docs/PRIVACY.md).
