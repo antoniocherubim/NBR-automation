@@ -12,6 +12,8 @@ decisões explícitas para cada valor exportado.
 > O boundary de fixtures privadas (`REPO-003A` + `REPO-003B`) está **disponível**
 > na árvore atual: inventário público, materialização em `inputs/private/` e
 > árvore Git **sem** os 14 bytes reais rastreados.
+> O índice normativo v1 (`NBR-000`) está **disponível**: catálogo de autoridade
+> (seção/página/tipo/estado) sem regras executáveis nem transcrição da norma.
 > OPR-PUBLIC-001 criou este histórico público novo, com um único commit raiz
 > sanitizado. O repositório histórico anterior continua separado e privado.
 
@@ -21,6 +23,7 @@ decisões explícitas para cada valor exportado.
 |------------|--------|-----------------|
 | Scaffold Python 3.12 e gates offline | **Disponível** | Estrutura `src/`/`tests/`, scripts de bootstrap e teste sem rede |
 | Registro determinístico das 14 fontes | **Disponível** | `nbr12721.sources`: IDs lógicos, mapeamento explícito para path físico, manifest canônico |
+| Índice normativo v1 (autoridade) | **Disponível** | `nbr12721.normative` + `registries/normative-reference-index.json` (NBR-000) |
 | Inventário público de fixtures privadas | **Disponível** | `manifests/private-fixtures-v1.json` (metadata/hashes; sem bytes) |
 | Helper + materializador privado | **Disponível** | `scripts/private-fixtures/` (XDG; cópias read-only em `inputs/private/`) |
 | Árvore Git sanitizada (sem PDFs/XLSX reais) | **Disponível** | REPO-003B remove os 14 originais da árvore Git rastreada |
@@ -29,7 +32,7 @@ decisões explícitas para cada valor exportado.
 | Workflow CI validate-and-package | **Disponível** | Gates públicos sem store; `artifact.zip` só com árvore sanitizada |
 | Publicação / histórico sanitizado | **Disponível** | OPR-PUBLIC-001 concluída; histórico público independente |
 
-Detalhes técnicos: tasks `REPO-001` … `REPO-003B` e `OPR-PUBLIC-001` — ver [ROADMAP.md](ROADMAP.md).
+Detalhes técnicos: tasks `REPO-001` … `REPO-003B`, `OPR-PUBLIC-001` e `NBR-000` — ver [ROADMAP.md](ROADMAP.md).
 
 ## O que ainda não funciona
 
@@ -39,7 +42,6 @@ Detalhes técnicos: tasks `REPO-001` … `REPO-003B` e `OPR-PUBLIC-001` — ver 
 | Motor normativo e cálculo dos Quadros I/II/IV-B | **Planejada** |
 | Preenchimento e exportação do template XLSX | **Planejada** |
 | Pipeline ponta a ponta até `resultado.xlsx` | **Planejada** |
-| Registro de referências normativas | **Pronta para execução** (NBR-000) |
 | Interface gráfica ou CLI de produto | **Planejada** |
 | Remoto/histórico público | **Disponível** |
 
@@ -50,6 +52,7 @@ Consulte o [roadmap completo](ROADMAP.md) para milestones, dependências e gates
 ```text
 fontes imutáveis (store privado → inputs/private/ quando required)
   → perfil e verificação das fontes (ID lógico preservado)
+  → índice normativo (autoridade por seção; já disponível)
   → evidências extraídas dos PDFs
   → fatos observados e resoluções explícitas
   → modelo do empreendimento
@@ -59,8 +62,8 @@ fontes imutáveis (store privado → inputs/private/ quando required)
   → cópia preenchida do template XLSX
 ```
 
-Hoje estão implementados o registro de fontes, o boundary privado e a árvore
-rastreada sanitizada — não o pipeline de domínio.
+Hoje estão implementados o registro de fontes, o boundary privado, a árvore
+rastreada sanitizada e o catálogo normativo v1 — não o pipeline de domínio.
 
 ## Pré-requisitos
 
@@ -156,8 +159,9 @@ ID lógico → `materialize_path`; não lê XDG nem importa o mecanismo de confi
 | [docs/GLOSSARY.md](docs/GLOSSARY.md) | Todos | Termos técnicos e do projeto |
 | [docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md) | Operadores | Falhas conhecidas e recuperação |
 | [docs/PRIVACY.md](docs/PRIVACY.md) | Todos | Cuidados com dados sensíveis |
+| [docs/NORMATIVE_INDEX.md](docs/NORMATIVE_INDEX.md) | Desenvolvedores / revisores | Uso do índice normativo v1 |
 | [ROADMAP.md](ROADMAP.md) | Planejamento | Milestones, tasks e gates |
-| [docs/tasks/NBR-000.md](docs/tasks/NBR-000.md) | Desenvolvimento | Próxima task pronta: catálogo de referências normativas |
+| [docs/tasks/NBR-000.md](docs/tasks/NBR-000.md) | Desenvolvimento | Catálogo normativo (candidate_complete) |
 
 ## Como relatar um problema
 

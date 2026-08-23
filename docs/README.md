@@ -15,6 +15,7 @@ Todos os links são relativos e funcionam offline.
 - [Conceitos](CONCEPTS.md) — arquitetura, determinismo, evidência, decisão e
   proveniência em linguagem acessível
 - [Glossário](GLOSSARY.md) — definições de termos técnicos e da NBR
+- [Índice normativo v1](NORMATIVE_INDEX.md) — catálogo de autoridade (NBR-000)
 - [Roadmap](../ROADMAP.md) — o que está pronto, planejado ou bloqueado
 
 ## Algo deu errado
@@ -26,7 +27,8 @@ Todos os links são relativos e funcionam offline.
 
 ## Quero acompanhar o desenvolvimento
 
-- [Próxima task](tasks/NBR-000.md) — especificação pronta do catálogo normativo
+- [Task NBR-000](tasks/NBR-000.md) — índice normativo v1 (`candidate_complete`)
+- [Próxima capacidade de contratos](../ROADMAP.md) — ARCH-001 (envelopes)
 - [Roadmap](../ROADMAP.md) — ordem, dependências e estado das próximas entregas
 
 ## Estado das funcionalidades
@@ -34,6 +36,7 @@ Todos os links são relativos e funcionam offline.
 | Área | Status |
 |------|--------|
 | Verificação de fontes e manifest | **Disponível** |
+| Índice normativo v1 (autoridade) | **Disponível** (NBR-000) |
 | Adapter N+1 de fixtures privadas | **Disponível** |
 | Árvore Git sem bytes privados | **Disponível** (REPO-003B) |
 | Documentação de usuário | **Disponível** |

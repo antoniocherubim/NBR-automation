@@ -1228,7 +1228,7 @@ class RuntimeSurfaceTests(unittest.TestCase):
 
         module = importlib.import_module("nbr12721")
         public = [name for name in dir(module) if not name.startswith("_")]
-        self.assertEqual(public, ["sources"])
+        self.assertEqual(public, ["normative", "sources"])
         self.assertNotIn("private_fixtures", public)
         with self.assertRaises(ModuleNotFoundError):
             importlib.import_module("nbr12721.private_fixtures")

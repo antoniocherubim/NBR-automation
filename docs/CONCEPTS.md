@@ -88,7 +88,8 @@ Cada task versionada delimita objetivo, escopo, critérios de aceite e evidênci
 |--------|--------|
 | Registro e verificação das 14 fontes | **Disponível** |
 | Manifest canônico e policy de output | **Disponível** |
+| Índice normativo v1 (autoridade por seção) | **Disponível** |
 | Documentação de usuário | **Disponível** |
-| Extração, domínio NBR, Quadros, XLSX | **Planejadas** |
+| Extração PDF, domínio NBR, Quadros, XLSX | **Planejadas** |
 
 Detalhes por milestone: [ROADMAP.md](../ROADMAP.md).

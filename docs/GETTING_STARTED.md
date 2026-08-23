@@ -72,6 +72,10 @@ O registro de fontes verifica os bytes em `materialize_path` preservando o ID
 lógico. O módulo `nbr12721.sources` recebe o mapeamento do chamador; não lê
 XDG.
 
+O índice normativo v1 (`nbr12721.normative`) está **Disponível**: lista
+seções/páginas/tipos da ABNT NBR 12721:2006 vc3 sem calcular Quadros e sem
+abrir o PDF. Guia: [NORMATIVE_INDEX.md](NORMATIVE_INDEX.md).
+
 ## 6. Regras importantes
 
 ### Não edite o store nem force hashes

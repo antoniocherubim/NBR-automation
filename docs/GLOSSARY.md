@@ -56,6 +56,13 @@ Arquivo JSON canônico (`manifests/source-manifest.json`) que lista todas as
 fontes registradas com path, digest, tamanho e tipo de mídia. **Disponível**
 após REPO-002.
 
+### índice normativo
+
+Catálogo v1 (`registries/normative-reference-index.json`) que liga seções da
+ABNT NBR 12721:2006 (versão corrigida 3) a página PDF, página impressa, tipo e
+estado de formalização, sem transcrever a norma. Pacote `nbr12721.normative`.
+**Disponível** (NBR-000).
+
 ### artifact
 
 Arquivo produzido pelo pipeline (manifest, relatório, pacote CI
