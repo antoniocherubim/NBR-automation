@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nbr12721.local/schemas/source-manifest-v1.schema.json",
+  "title": "Source manifest v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "artifacts"],
+  "properties": {
+    "schema_version": {
+      "type": "integer",
+      "const": 1
+    },
+    "artifacts": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/source_artifact"
+      }
+    }
+  },
+  "$defs": {
+    "source_artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "size_bytes", "media_type"],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^(?!/)(?!\\.\\.(/|$))(?!.*(?:^|/)\\.\\.(/|$))(?!\\.(/|$))(?!.*/\\./)(?!.*/\\.$)(?!.*//)(?!.*\\\\)[^\\x00]+(?<!/)$"
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "size_bytes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "media_type": {
+          "type": "string",
+          "enum": [
+            "application/pdf",
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+          ]
+        }
+      },
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "path": {
+              "type": "string",
+              "pattern": "(?:^|/)[^/]+\\.[Pp][Dd][Ff]$"
+            },
+            "media_type": {
+              "const": "application/pdf"
+            }
+          },
+          "required": ["path", "media_type"]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "path": {
+              "type": "string",
+              "pattern": "(?:^|/)[^/]+\\.[Xx][Ll][Ss][Xx]$"
+            },
+            "media_type": {
+              "const": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            }
+          },
+          "required": ["path", "media_type"]
+        }
+      ]
+    }
+  }
+}

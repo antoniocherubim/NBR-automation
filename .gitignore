@@ -1,0 +1,35 @@
+# Ambientes virtuais e caches Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.eggs/
+dist/
+build/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+
+# Artefatos de teste e build locais
+*.log
+.coverage.*
+
+# Saídas geradas localmente pelo pipeline (somente raiz; fixtures/manifests/inputs aninhados permanecem visíveis)
+/outputs/
+
+# Cópias materializadas de fixtures privadas (somente raiz; não oculta inputs/ nem fixtures sintéticas)
+/inputs/private/
+
+# Estado operacional local (não ocultar inputs/, SHA256SUMS, INPUTS.md, ROADMAP.md, docs/tasks/)
+.agent-loop-local/
+*.swp
+*~
+.DS_Store

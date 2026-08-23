@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nbr12721.local/schemas/private-fixtures-v1.schema.json",
+  "title": "Private fixtures inventory v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "fixtures"],
+  "properties": {
+    "schema_version": {
+      "type": "integer",
+      "const": 1
+    },
+    "fixtures": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/private_fixture"
+      }
+    }
+  },
+  "$defs": {
+    "private_fixture": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "store_path",
+        "materialize_path",
+        "sha256",
+        "size_bytes",
+        "media_type"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^(?!/)(?!\\.\\.(/|$))(?!.*(?:^|/)\\.\\.(/|$))(?!\\.(/|$))(?!.*/\\./)(?!.*/\\.$)(?!.*//)(?!.*\\\\)[^\\x00]+(?<!/)$"
+        },
+        "store_path": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^(?!/)(?!\\.\\.(/|$))(?!.*(?:^|/)\\.\\.(/|$))(?!\\.(/|$))(?!.*/\\./)(?!.*/\\.$)(?!.*//)(?!.*\\\\)[^\\x00]+(?<!/)$"
+        },
+        "materialize_path": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^inputs/private/(?!\\.\\.(/|$))(?!.*(?:^|/)\\.\\.(/|$))(?!\\.(/|$))(?!.*/\\./)(?!.*/\\.$)(?!.*//)(?!.*\\\\)[^\\x00]+(?<!/)$"
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "size_bytes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "media_type": {
+          "type": "string",
+          "enum": [
+            "application/pdf",
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+          ]
+        }
+      },
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "store_path": {
+              "type": "string",
+              "pattern": "(?:^|/)[^/]+\\.[Pp][Dd][Ff]$"
+            },
+            "media_type": {
+              "const": "application/pdf"
+            }
+          },
+          "required": ["store_path", "media_type"]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "store_path": {
+              "type": "string",
+              "pattern": "(?:^|/)[^/]+\\.[Xx][Ll][Ss][Xx]$"
+            },
+            "media_type": {
+              "const": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            }
+          },
+          "required": ["store_path", "media_type"]
+        }
+      ]
+    }
+  }
+}
