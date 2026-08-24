@@ -8,7 +8,13 @@ import os
 import sys
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[2]
+# O entrypoint pode ser executado a partir do snapshot congelado do mecanismo
+# de execução. Nesse caso, código e dados validados continuam na worktree
+# indicada explicitamente pelo controller.
+ROOT = Path(
+    os.environ.get("AGENT_LOOP_WORKTREE")
+    or Path(__file__).resolve().parents[2]
+).resolve()
 sys.path.insert(0, str(ROOT / "src"))
 sys.path.insert(0, str(ROOT / "scripts" / "private-fixtures"))
 
@@ -25,7 +31,7 @@ from nbr12721.sources.sha256sums import parse_sha256sums
 
 
 def main() -> int:
-    repo_root = Path(os.environ.get("AGENT_LOOP_WORKTREE") or ROOT).resolve()
+    repo_root = ROOT
     task_file = os.environ.get("AGENT_LOOP_TASK_FILE")
 
     try:

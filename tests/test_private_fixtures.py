@@ -1278,6 +1278,40 @@ class ValidateGateScriptTests(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
         self.assertIn("marker=none", result.stdout)
 
+    def test_validate_gate_resolves_imports_from_worktree_when_frozen(
+        self,
+    ) -> None:
+        source = REPO_ROOT / "scripts/private-fixtures/validate-gate.py"
+        with tempfile.TemporaryDirectory() as tmp:
+            frozen = (
+                Path(tmp)
+                / "control-adapter/files/scripts/private-fixtures/validate-gate.py"
+            )
+            frozen.parent.mkdir(parents=True)
+            frozen.write_bytes(source.read_bytes())
+
+            env = {
+                **os.environ,
+                "AGENT_LOOP_WORKTREE": str(REPO_ROOT),
+                "AGENT_LOOP_TASK_FILE": str(
+                    REPO_ROOT / "docs/tasks/ARCH-001.md"
+                ),
+                "PYTHONSAFEPATH": "1",
+            }
+            env.pop("PYTHONPATH", None)
+            result = subprocess.run(
+                [sys.executable, str(frozen)],
+                cwd=tmp,
+                env=env,
+                capture_output=True,
+                text=True,
+                check=False,
+            )
+
+        self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
+        self.assertNotIn("ModuleNotFoundError", result.stderr)
+        self.assertIn("marker=none", result.stdout)
+
 
 if __name__ == "__main__":
     unittest.main()
