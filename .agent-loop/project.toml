@@ -1,7 +1,7 @@
 schema_version = 1
 
 [approval]
-mode = "github_branch"
+mode = "telegram"
 remote = "origin"
 base_branch = "main"
 
