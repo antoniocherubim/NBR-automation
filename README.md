@@ -44,7 +44,8 @@ e `ARCH-001` — ver [ROADMAP.md](ROADMAP.md).
 | Capacidade | Status |
 |------------|--------|
 | Payloads semânticos por estágio (extraction/project/NBR/…) | **Planejada** |
-| Leitura/extração de PDF (texto, vetores, OCR) | **Planejada** |
+| Profiler técnico de PDFs (PDF-001) | **Próxima task especificada** |
+| Extração semântica de PDF e OCR | **Planejada** |
 | Motor normativo e cálculo dos Quadros I/II/IV-B | **Planejada** |
 | Preenchimento e exportação do template XLSX | **Planejada** |
 | Pipeline ponta a ponta até `resultado.xlsx` | **Planejada** |
@@ -169,8 +170,9 @@ ID lógico → `materialize_path`; não lê XDG nem importa o mecanismo de confi
 | [docs/NORMATIVE_INDEX.md](docs/NORMATIVE_INDEX.md) | Desenvolvedores / revisores | Uso do índice normativo v1 |
 | [docs/ARTIFACT_VERSIONING.md](docs/ARTIFACT_VERSIONING.md) | Desenvolvedores / revisores | Envelope comum v1 e compatibilidade |
 | [ROADMAP.md](ROADMAP.md) | Planejamento | Milestones, tasks e gates |
-| [docs/tasks/ARCH-001.md](docs/tasks/ARCH-001.md) | Desenvolvimento | Envelopes (candidate) |
+| [docs/tasks/ARCH-001.md](docs/tasks/ARCH-001.md) | Desenvolvimento | Envelopes (integrado) |
 | [docs/tasks/NBR-000.md](docs/tasks/NBR-000.md) | Desenvolvimento | Catálogo normativo (integrado) |
+| [docs/tasks/PDF-001.md](docs/tasks/PDF-001.md) | Desenvolvimento | Profiler PDF (especificação pronta) |
 
 ## Como relatar um problema
 

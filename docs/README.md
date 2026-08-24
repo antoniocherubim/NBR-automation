@@ -29,8 +29,9 @@ Todos os links são relativos e funcionam offline.
 
 ## Quero acompanhar o desenvolvimento
 
-- [Task ARCH-001](tasks/ARCH-001.md) — envelopes e versionamento (`candidate_complete`)
+- [Task ARCH-001](tasks/ARCH-001.md) — envelopes e versionamento (integrado)
 - [Task NBR-000](tasks/NBR-000.md) — índice normativo v1 (integrado)
+- [Task PDF-001](tasks/PDF-001.md) — profiler PDF (especificação pronta)
 - [Roadmap](../ROADMAP.md) — ordem, dependências e estado das próximas entregas
 
 ## Estado das funcionalidades

@@ -1,14 +1,14 @@
 # ROADMAP — automação determinística da ABNT NBR 12721
 
-Status do documento: **baseline de planejamento + NBR-000 integrada + ARCH-001
-em candidate**
+Status do documento: **baseline de planejamento + NBR-000 e ARCH-001
+integradas + PDF-001 especificada**
 
 Data da inspeção: **2026-08-19**
 Escopo desta versão: arquitetura, pesquisa inicial, milestones, tasks e gates.
 Infraestrutura de fontes (`nbr12721.sources`), índice normativo v1
 (`nbr12721.normative`, NBR-000) e envelope comum v1 (`nbr12721.artifacts`,
-ARCH-001 no candidate) estão presentes; nenhum runtime de domínio, extração ou
-pipeline foi implementado.
+ARCH-001) estão integrados; nenhum runtime de domínio, extração ou pipeline
+foi implementado.
 
 ## 1. Objetivo e critério de sucesso
 
@@ -426,8 +426,8 @@ As fases indicam capacidade, não uma fila estritamente serial. Tasks independen
 
 #### ARCH-001 — Envelopes e versionamento dos artefatos
 
-- **Status:** `candidate_complete` — implementação no worktree candidato;
-  integração (commit/push) permanece com o operador.
+- **Status:** `COMPLETE` — implementação integrada pelo operador no commit
+  `706ddaa`.
 - **Objective:** definir envelopes, compatibilidade e serialização canônica dos estágios.
 - **Why it exists:** contratos persistidos desacoplam extração, resolução, cálculo, validação e exportação.
 - **Scope:** schemas v1, `schema_version`, lineage, política de campos desconhecidos, Decimal-string, IDs estáveis e separação entre payload e metadata operacional.
@@ -435,14 +435,15 @@ As fases indicam capacidade, não uma fila estritamente serial. Tasks independen
 - **Dependencies:** REPO-001, REPO-002 (integradas).
 - **Implementation boundary:** contratos de I/O em `nbr12721.artifacts`; nenhum adapter ou regra de negócio.
 - **Acceptance criteria:** round-trip sem perda; serialização byte-estável; versões incompatíveis falham com diagnóstico; nenhum timestamp volátil entra no hash de conteúdo; oito goldens sintéticos; manifests/registries/schemas pré-existentes byte-idênticos.
-- **Tests/gates (evidência do candidate):** ver `docs/tasks/ARCH-001.md` —
+- **Tests/gates (evidência do candidate integrado):** ver
+  `docs/tasks/ARCH-001.md` —
   `validate-gate.py` OK; unittest **182 passed** / 0 failed / 0 skipped;
   `validate-public-tree.py --candidate` (hits=0); `git diff --check` OK;
   manifests/registries/schemas pré-existentes inalterados byte a byte.
 - **Expected artifacts:** `src/nbr12721/artifacts/`,
   `schemas/artifact-envelope-v1.schema.json`,
   `tests/fixtures/envelopes/v1/`, `docs/ARTIFACT_VERSIONING.md`, testes e docs
-  — **no candidate** (ainda não integrados).
+  — **integrados na branch canônica**.
 - **Riscos residuais:** payload permanece opaco até schemas por estágio;
   subset stdlib do JSON Schema nos testes não substitui motor Draft 2020-12
   completo; ordenação canônica de sources/inputs é contrato v1 (mudança
@@ -680,12 +681,13 @@ As fases indicam capacidade, não uma fila estritamente serial. Tasks independen
 
 #### PDF-001 — Profiler de todas as páginas do AY0410
 
-- **Status:** `PLANNED`.
+- **Status:** `READY` — especificação executável materializada em
+  `docs/tasks/PDF-001.md`; dependências integradas.
 - **Objective:** caracterizar todas as páginas por texto, vetores, imagens, boxes, rotação e origem provável.
 - **Why it exists:** a escolha de backend deve se basear em sinais mensuráveis, não no nome do arquivo ou em `word_count` isolado.
 - **Scope:** interface de backend, métricas por página, thresholds configurados/explicados e output versionado sobre as 12 pranchas.
 - **Out of scope:** extrair fatos, OCR e classificação normativa.
-- **Dependencies:** REPO-002, ARCH-001.
+- **Dependencies:** REPO-002, REPO-003B, OPR-PUBLIC-001 e ARCH-001.
 - **Implementation boundary:** adapter PDF + profiler; sem domínio NBR ou regra AY0410.
 - **Acceptance criteria:** cobre 12/12 páginas; distingue texto, paths e imagens; não classifica estacionamentos vetoriais como scans só por pouco texto; registra backend/versão.
 - **Tests/gates:** PDFs sintéticos text/vector/raster/hybrid, determinismo, corpus completo e hash dos inputs inalterado.
@@ -1037,8 +1039,11 @@ Estado da infraestrutura e sequência planejada:
 5. `REPO-003B` — remoção dos originais e árvore publicável (**concluída; presente no commit raiz público `d8e6201`**);
 6. `OPR-PUBLIC-001` — histórico público sanitizado (**concluída**);
 7. `NBR-000` — registro de referências normativas (**integrada no commit `8898c97`**);
-8. `ARCH-001` — envelopes e versionamento (**candidate_complete; aguarda integração do operador**);
-9. `PDF-001` — profiler do corpus, após REPO-002/REPO-003B/ARCH-001;
+8. `ARCH-001` — envelopes e versionamento (**integrada no commit `706ddaa`**);
+9. `PDF-001` — profiler do corpus (**especificação pronta; próxima task**);
 10. `XLSX-001` — mapa formal do template, após REPO-002/REPO-003B/ARCH-001.
 
-`CORE-001` é a primeira task de domínio e fica pronta assim que `ARCH-001` e `NBR-000` estiverem integradas. `NBR-002`, `NBR-003`, `NBR-004`, exportação XLSX, OCR e E2E não devem ser antecipadas.
+`CORE-001` é a primeira task de domínio e teve suas dependências
+arquiteturais integradas, mas PDF-001 permanece a próxima task da sequência
+operacional. `NBR-002`, `NBR-003`, `NBR-004`, exportação XLSX, OCR e E2E não
+devem ser antecipadas.
