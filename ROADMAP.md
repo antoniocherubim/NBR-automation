@@ -1,9 +1,9 @@
 # ROADMAP — automação determinística da ABNT NBR 12721
 
-Status do documento: **baseline de planejamento + NBR-000 candidata**
+Status do documento: **baseline de planejamento + NBR-000 integrada**
 
 Data da inspeção: **2026-08-19**
-Escopo desta versão: arquitetura, pesquisa inicial, milestones, tasks e gates. Infraestrutura de fontes (`nbr12721.sources`) e índice normativo v1 (`nbr12721.normative`, NBR-000) estão disponíveis no candidate; nenhum runtime de domínio, extração ou pipeline foi implementado.
+Escopo desta versão: arquitetura, pesquisa inicial, milestones, tasks e gates. Infraestrutura de fontes (`nbr12721.sources`) e índice normativo v1 (`nbr12721.normative`, NBR-000) estão integrados; nenhum runtime de domínio, extração ou pipeline foi implementado.
 
 ## 1. Objetivo e critério de sucesso
 
@@ -421,7 +421,8 @@ As fases indicam capacidade, não uma fila estritamente serial. Tasks independen
 
 #### ARCH-001 — Envelopes e versionamento dos artefatos
 
-- **Status:** `PLANNED`.
+- **Status:** `READY` — especificação materializada em
+  `docs/tasks/ARCH-001.md`; dependências integradas.
 - **Objective:** definir envelopes, compatibilidade e serialização canônica dos estágios.
 - **Why it exists:** contratos persistidos desacoplam extração, resolução, cálculo, validação e exportação.
 - **Scope:** schemas v1, `schema_version`, lineage, política de campos desconhecidos, Decimal-string, IDs estáveis e separação entre payload e metadata operacional.
@@ -435,8 +436,8 @@ As fases indicam capacidade, não uma fila estritamente serial. Tasks independen
 
 #### NBR-000 — Registro de fonte e referências normativas
 
-- **Status:** `candidate_complete` — implementação no worktree candidato; aguarda
-  revisão técnica e integração manual do operador (sem commit/push nesta execução).
+- **Status:** `COMPLETE` — implementação integrada pelo operador no commit
+  `8898c97`.
 - **Objective:** criar índice de regras com identidade normativa rastreável.
 - **Why it exists:** toda fórmula/taxonomia deve citar a versão e seção que lhe dá autoridade.
 - **Scope:** hash da norma, edição/versão corrigida, seção, página física/impressa, tipo da regra, status de formalização e notas de errata.
@@ -444,11 +445,11 @@ As fases indicam capacidade, não uma fila estritamente serial. Tasks independen
 - **Dependencies:** REPO-001, REPO-002, REPO-003B e OPR-PUBLIC-001.
 - **Implementation boundary:** catálogo de referências; trechos extensos/licenciados não são redistribuídos nos artefatos.
 - **Acceptance criteria:** distingue 2006 de Errata 3/2021; uma regra sem referência não pode ser marcada implementada; páginas físicas e impressas não se confundem; baseline permanece `indexed`.
-- **Tests/gates (evidência do candidate):** ver `docs/tasks/NBR-000.md` —
+- **Tests/gates (evidência do candidate integrado):** ver `docs/tasks/NBR-000.md` —
   configure/materialize 14/14; unittest **154 passed** / 0 failed / 0 skipped;
   reconstrução byte-idêntica (13343 bytes); `validate-public-tree --candidate`
   (79 files, hits=0); `git diff --check` OK.
-- **Expected artifacts:** `src/nbr12721/normative/`, `schemas/normative-reference-index-v1.schema.json`, `registries/normative-reference-index.json`, `docs/NORMATIVE_INDEX.md`, testes e docs atualizados — **no candidate; não integrados**.
+- **Expected artifacts:** `src/nbr12721/normative/`, `schemas/normative-reference-index-v1.schema.json`, `registries/normative-reference-index.json`, `docs/NORMATIVE_INDEX.md`, testes e docs atualizados — **integrados**.
 - **Riscos residuais:** localizadores foram conferidos read-only na cópia privada com ferramenta de host (`pdftotext`); o runtime não parseia PDF; cobertura é o subset obrigatório da task, não a norma inteira; `formalized`/`implemented` só entram quando tasks futuras citarem artefatos reais.
 - **Relevant source/reference:** prefácio da NBR, seções 3.7, 3.14, 5.2–5.8 e Anexo A.
 
@@ -1020,8 +1021,8 @@ Estado da infraestrutura e sequência planejada:
 4. `REPO-003A` — preparação segura de fixtures privadas (**integrada localmente em 2026-08-20 no commit `eff97c1`**);
 5. `REPO-003B` — remoção dos originais e árvore publicável (**concluída; presente no commit raiz público `d8e6201`**);
 6. `OPR-PUBLIC-001` — histórico público sanitizado (**concluída**);
-7. `NBR-000` — registro de referências normativas (**candidate_complete neste worktree; pendente integração do operador**);
-8. `ARCH-001` — envelopes e versionamento;
+7. `NBR-000` — registro de referências normativas (**integrada no commit `8898c97`**);
+8. `ARCH-001` — envelopes e versionamento (**especificação pronta**);
 9. `PDF-001` — profiler do corpus, após REPO-002/REPO-003B/ARCH-001;
 10. `XLSX-001` — mapa formal do template, após REPO-002/REPO-003B/ARCH-001.
 
