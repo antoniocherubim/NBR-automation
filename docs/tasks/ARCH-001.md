@@ -1,6 +1,6 @@
 ---
 id: ARCH-001
-status: ready
+status: candidate_complete
 depends_on:
   - REPO-001
   - REPO-002
@@ -515,3 +515,93 @@ final deve registrar:
 Falha em qualquer critério bloqueante mantém a task incompleta. Não reduzir
 testes, afrouxar schema, alterar inputs ou expandir escopo para obter
 aprovação.
+
+## Evidência da implementação (candidate)
+
+Status final desta execução: **`candidate_complete`**. Sem commit, push, PR,
+merge, deploy ou próxima task. `private_fixtures: none` — nenhum store/config
+XDG consultado e nenhum `inputs/private/` materializado.
+
+### Artefatos entregues
+
+| Path | Papel |
+|------|--------|
+| `src/nbr12721/artifacts/` | Value objects, JSON canônico, Decimal-string, identidade, validação |
+| `schemas/artifact-envelope-v1.schema.json` | JSON Schema Draft 2020-12 |
+| `tests/fixtures/envelopes/v1/*.json` | Oito goldens sintéticos (um por tipo v1) |
+| `tests/test_artifact_envelope.py` | Positivos/negativos/invariantes/property (stdlib) |
+| `docs/ARTIFACT_VERSIONING.md` | Compatibilidade, shape, boundary operacional |
+| `README.md`, `ROADMAP.md`, `docs/*` | Documentação material atualizada |
+
+### Shape final do envelope
+
+Sem desvio material do shape conceitual da task:
+
+- `schema_version` (int exato `1`), `artifact_type`, `project_id`,
+  `sources[]` (`path` + `sha256`), `producer` (`name`/`version`/`configuration`),
+  `inputs[]` (`artifact_type` + `content_sha256`), `payload` (objeto opaco).
+- Ordenação canônica: sources por `(path, sha256)`; inputs por
+  `(artifact_type, content_sha256)`.
+- Tipos v1: `page-profiles`, `extraction`, `project`, `decisions`, `nbr`,
+  `validation-report`, `workbook-model`, `provenance-index`.
+
+### Regras canônicas
+
+- JSON: UTF-8 sem BOM, chaves ordenadas, separators compactos, newline final,
+  rejeição de float/NaN/inf/tipos não JSON, surrogates isolados e chaves
+  duplicadas.
+- Value objects: payload/configuração congelados recursivamente; mutação da
+  entrada original não altera bytes nem identidade após a construção.
+- Decimal-string: forma canônica sem expoente/`float`, independente do
+  contexto Decimal corrente e sem arredondamento (tabela da task atendida).
+- Content ID: `sha256:` + SHA-256 dos bytes canônicos completos (com `\n`);
+  digest **não** armazenado dentro do envelope.
+- Metadata operacional (timestamp, hostname, cwd, run id, etc.) rejeitada no
+  envelope; permanece fora do hash.
+
+### Compatibilidade
+
+Leitor v1 aceita somente `schema_version = 1`. Diagnóstico tipado
+`ArtifactSchemaVersionError` informa `recebido=` e `suportado=[1]`.
+Campos desconhecidos falham. `producer.version` não substitui schema.
+
+### Gates executados (offline)
+
+| Comando | Resultado |
+|---------|-----------|
+| `python3 scripts/private-fixtures/validate-gate.py` | `marker=none`; inventário OK; sem `inputs/private/` |
+| `python3 -m compileall -q src tests scripts/private-fixtures scripts/ci` | OK |
+| `PYTHONPATH=src:scripts/private-fixtures python3 -m unittest discover -s tests -p 'test_*.py' -v` | **182 passed** / 0 failed / 0 skipped |
+| `bash scripts/agent-loop/test.sh` | OK (mesma suíte) |
+| `python3 scripts/ci/validate-public-tree.py --candidate` | files=99; private/historical/digest hits=0 |
+| `git diff --check` | OK |
+
+SHA-256 pré/pós inalterados (byte a byte):
+
+- `manifests/source-manifest.json`
+- `registries/normative-reference-index.json`
+- `schemas/source-manifest-v1.schema.json`
+- `schemas/normative-reference-index-v1.schema.json`
+- `schemas/private-fixtures-v1.schema.json`
+
+Rede não utilizada; nenhum pacote instalado; nenhuma dependência nova no
+`pyproject.toml`. Goldens e logs sem digests/paths privados do corpus AY0410.
+Superfície pública de `nbr12721`: `artifacts` + `normative` + `sources`.
+
+### Riscos residuais
+
+- Payload continua opaco até schemas semânticos por estágio.
+- Helper de teste do JSON Schema é subset stdlib (patterns ECMA-262 /
+  `additionalProperties` / enums); não é motor Draft 2020-12 completo.
+- JSON Schema restringe payload/configuração recursivamente a valores
+  canônicos representáveis; a distinção lexical JSON entre `1` e `1.0`
+  permanece responsabilidade do parser Python, pois JSON Schema trata ambos
+  como inteiros quando o valor matemático é integral.
+- Mudança na ordenação canônica de sources/inputs exigiria nova versão de
+  schema.
+- Integração (commit/push) permanece com o operador.
+
+### Confirmações operacionais
+
+- Sem commit, push, publicação, merge, deploy ou execução da próxima task.
+- Status permitido: `candidate_complete`.

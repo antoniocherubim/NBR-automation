@@ -15,7 +15,7 @@ class TestPackageSmoke(unittest.TestCase):
         module = importlib.import_module("nbr12721")
         self.assertEqual(module.__version__, "0.0.0")
         public = [name for name in dir(module) if not name.startswith("_")]
-        self.assertEqual(public, ["normative", "sources"])
+        self.assertEqual(public, ["artifacts", "normative", "sources"])
         self.assertFalse(hasattr(module, "private_fixtures"))
 
 

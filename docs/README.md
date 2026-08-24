@@ -16,6 +16,8 @@ Todos os links são relativos e funcionam offline.
   proveniência em linguagem acessível
 - [Glossário](GLOSSARY.md) — definições de termos técnicos e da NBR
 - [Índice normativo v1](NORMATIVE_INDEX.md) — catálogo de autoridade (NBR-000)
+- [Versionamento de artefatos](ARTIFACT_VERSIONING.md) — envelope comum v1
+  (ARCH-001)
 - [Roadmap](../ROADMAP.md) — o que está pronto, planejado ou bloqueado
 
 ## Algo deu errado
@@ -27,8 +29,8 @@ Todos os links são relativos e funcionam offline.
 
 ## Quero acompanhar o desenvolvimento
 
-- [Task NBR-000](tasks/NBR-000.md) — índice normativo v1 (`candidate_complete`)
-- [Próxima capacidade de contratos](../ROADMAP.md) — ARCH-001 (envelopes)
+- [Task ARCH-001](tasks/ARCH-001.md) — envelopes e versionamento (`candidate_complete`)
+- [Task NBR-000](tasks/NBR-000.md) — índice normativo v1 (integrado)
 - [Roadmap](../ROADMAP.md) — ordem, dependências e estado das próximas entregas
 
 ## Estado das funcionalidades
@@ -37,6 +39,7 @@ Todos os links são relativos e funcionam offline.
 |------|--------|
 | Verificação de fontes e manifest | **Disponível** |
 | Índice normativo v1 (autoridade) | **Disponível** (NBR-000) |
+| Envelope comum de artefatos v1 | **Disponível** (ARCH-001; payload semântico **Planejado**) |
 | Adapter N+1 de fixtures privadas | **Disponível** |
 | Árvore Git sem bytes privados | **Disponível** (REPO-003B) |
 | Documentação de usuário | **Disponível** |

@@ -1,9 +1,14 @@
 # ROADMAP — automação determinística da ABNT NBR 12721
 
-Status do documento: **baseline de planejamento + NBR-000 integrada**
+Status do documento: **baseline de planejamento + NBR-000 integrada + ARCH-001
+em candidate**
 
 Data da inspeção: **2026-08-19**
-Escopo desta versão: arquitetura, pesquisa inicial, milestones, tasks e gates. Infraestrutura de fontes (`nbr12721.sources`) e índice normativo v1 (`nbr12721.normative`, NBR-000) estão integrados; nenhum runtime de domínio, extração ou pipeline foi implementado.
+Escopo desta versão: arquitetura, pesquisa inicial, milestones, tasks e gates.
+Infraestrutura de fontes (`nbr12721.sources`), índice normativo v1
+(`nbr12721.normative`, NBR-000) e envelope comum v1 (`nbr12721.artifacts`,
+ARCH-001 no candidate) estão presentes; nenhum runtime de domínio, extração ou
+pipeline foi implementado.
 
 ## 1. Objetivo e critério de sucesso
 
@@ -421,17 +426,27 @@ As fases indicam capacidade, não uma fila estritamente serial. Tasks independen
 
 #### ARCH-001 — Envelopes e versionamento dos artefatos
 
-- **Status:** `READY` — especificação materializada em
-  `docs/tasks/ARCH-001.md`; dependências integradas.
+- **Status:** `candidate_complete` — implementação no worktree candidato;
+  integração (commit/push) permanece com o operador.
 - **Objective:** definir envelopes, compatibilidade e serialização canônica dos estágios.
 - **Why it exists:** contratos persistidos desacoplam extração, resolução, cálculo, validação e exportação.
 - **Scope:** schemas v1, `schema_version`, lineage, política de campos desconhecidos, Decimal-string, IDs estáveis e separação entre payload e metadata operacional.
-- **Out of scope:** implementar fatos, regras NBR ou orquestrador.
-- **Dependencies:** REPO-001, REPO-002.
-- **Implementation boundary:** contratos de I/O; nenhum adapter ou regra de negócio.
-- **Acceptance criteria:** round-trip sem perda; serialização byte-estável; versões incompatíveis falham com diagnóstico; nenhum timestamp volátil entra no hash de conteúdo.
-- **Tests/gates:** golden JSON mínimo por estágio, property tests de ordem de chaves/Decimal e testes de schema inválido.
-- **Expected artifacts:** schemas/envelopes v1 e nota curta de compatibilidade.
+- **Out of scope:** implementar fatos, regras NBR ou orquestrador; migrar source-manifest ou índice normativo.
+- **Dependencies:** REPO-001, REPO-002 (integradas).
+- **Implementation boundary:** contratos de I/O em `nbr12721.artifacts`; nenhum adapter ou regra de negócio.
+- **Acceptance criteria:** round-trip sem perda; serialização byte-estável; versões incompatíveis falham com diagnóstico; nenhum timestamp volátil entra no hash de conteúdo; oito goldens sintéticos; manifests/registries/schemas pré-existentes byte-idênticos.
+- **Tests/gates (evidência do candidate):** ver `docs/tasks/ARCH-001.md` —
+  `validate-gate.py` OK; unittest **182 passed** / 0 failed / 0 skipped;
+  `validate-public-tree.py --candidate` (hits=0); `git diff --check` OK;
+  manifests/registries/schemas pré-existentes inalterados byte a byte.
+- **Expected artifacts:** `src/nbr12721/artifacts/`,
+  `schemas/artifact-envelope-v1.schema.json`,
+  `tests/fixtures/envelopes/v1/`, `docs/ARTIFACT_VERSIONING.md`, testes e docs
+  — **no candidate** (ainda não integrados).
+- **Riscos residuais:** payload permanece opaco até schemas por estágio;
+  subset stdlib do JSON Schema nos testes não substitui motor Draft 2020-12
+  completo; ordenação canônica de sources/inputs é contrato v1 (mudança
+  exigiria nova versão).
 - **Relevant source/reference:** este §4.4 e conceito `extract -> project -> nbr -> validate -> export`.
 
 #### NBR-000 — Registro de fonte e referências normativas
@@ -1022,7 +1037,7 @@ Estado da infraestrutura e sequência planejada:
 5. `REPO-003B` — remoção dos originais e árvore publicável (**concluída; presente no commit raiz público `d8e6201`**);
 6. `OPR-PUBLIC-001` — histórico público sanitizado (**concluída**);
 7. `NBR-000` — registro de referências normativas (**integrada no commit `8898c97`**);
-8. `ARCH-001` — envelopes e versionamento (**especificação pronta**);
+8. `ARCH-001` — envelopes e versionamento (**candidate_complete; aguarda integração do operador**);
 9. `PDF-001` — profiler do corpus, após REPO-002/REPO-003B/ARCH-001;
 10. `XLSX-001` — mapa formal do template, após REPO-002/REPO-003B/ARCH-001.
 

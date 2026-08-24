@@ -1,0 +1,156 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nbr12721.local/schemas/artifact-envelope-v1.schema.json",
+  "title": "Artifact envelope v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_type",
+    "project_id",
+    "sources",
+    "producer",
+    "inputs",
+    "payload"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "integer",
+      "const": 1
+    },
+    "artifact_type": {
+      "$ref": "#/$defs/artifact_type"
+    },
+    "project_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[^\\s]+$"
+    },
+    "sources": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/source_ref"
+      }
+    },
+    "producer": {
+      "$ref": "#/$defs/producer_ref"
+    },
+    "inputs": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/input_ref"
+      }
+    },
+    "payload": {
+      "$ref": "#/$defs/json_object"
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "logical_path": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!/)(?!\\.\\.(/|$))(?!.*(?:^|/)\\.\\.(/|$))(?!\\.(/|$))(?!.*/\\./)(?!.*/\\.$)(?!.*//)(?!.*\\\\)[^\\x00]+(?<!/)$"
+    },
+    "decimal_string": {
+      "type": "string",
+      "pattern": "^(?:0|-?(?:0\\.[0-9]*[1-9]|[1-9][0-9]*(?:\\.[0-9]*[1-9])?))$",
+      "description": "Decimal finito em forma canônica (sem expoente, sem float)."
+    },
+    "json_value": {
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "integer"
+        },
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/json_value"
+          }
+        },
+        {
+          "$ref": "#/$defs/json_object"
+        }
+      ]
+    },
+    "json_object": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/json_value"
+      }
+    },
+    "artifact_type": {
+      "type": "string",
+      "enum": [
+        "page-profiles",
+        "extraction",
+        "project",
+        "decisions",
+        "nbr",
+        "validation-report",
+        "workbook-model",
+        "provenance-index"
+      ]
+    },
+    "source_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {
+          "$ref": "#/$defs/logical_path"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "producer_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "version", "configuration"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^(?:\\S|\\S[\\s\\S]*\\S)$"
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^(?:\\S|\\S[\\s\\S]*\\S)$"
+        },
+        "configuration": {
+          "$ref": "#/$defs/json_object"
+        }
+      }
+    },
+    "input_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["artifact_type", "content_sha256"],
+      "properties": {
+        "artifact_type": {
+          "$ref": "#/$defs/artifact_type"
+        },
+        "content_sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    }
+  }
+}

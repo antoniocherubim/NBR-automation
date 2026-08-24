@@ -63,10 +63,30 @@ ABNT NBR 12721:2006 (versão corrigida 3) a página PDF, página impressa, tipo 
 estado de formalização, sem transcrever a norma. Pacote `nbr12721.normative`.
 **Disponível** (NBR-000).
 
+### envelope de artefato
+
+Recipiente JSON versionado (`schema_version`, tipo, projeto, fontes, produtor,
+inputs e payload) usado pelos estágios intermediários. Pacote
+`nbr12721.artifacts`. **Disponível** (ARCH-001). O conteúdo semântico de cada
+`payload` permanece **Planejado**.
+
+### content ID
+
+Identidade estável `sha256:<64-hex>` calculada sobre os bytes canônicos
+completos do envelope (incluindo a newline final). Não é gravada dentro do
+próprio documento. **Disponível** (ARCH-001).
+
+### Decimal-string
+
+Representação textual canônica de um `Decimal` finito (sem expoente, sem
+`float`). Usada em contratos persistidos. Política de escala/rounding de
+domínio: **Planejada** (CORE-004).
+
 ### artifact
 
-Arquivo produzido pelo pipeline (manifest, relatório, pacote CI
-futuro). Diferente de **input**: artifacts são gerados; inputs são preservados.
+Arquivo produzido pelo pipeline (manifest, envelope intermediário, relatório,
+pacote CI). Diferente de **input**: artifacts são gerados; inputs são
+preservados.
 
 ### determinismo
 

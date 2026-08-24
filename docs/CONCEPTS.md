@@ -71,6 +71,11 @@ Dados os mesmos inputs e a mesma versão do código, o sistema deve produzir os
 mesmos artefatos intermediários (manifest, JSON canônico, relatórios). Timestamps
 voláteis e paths absolutos do computador **não** entram no conteúdo estável.
 
+O envelope comum v1 (`nbr12721.artifacts`, ARCH-001) está **Disponível**:
+serialização canônica, Decimal-string e identidade `sha256:<digest>` sobre os
+bytes persistidos. Os **payloads** de cada estágio (extração, projeto, NBR,
+etc.) ainda são **Planejados**.
+
 ## Gates
 
 **Gates** são verificações bloqueantes: consistência do inventário público,

@@ -14,6 +14,9 @@ decisões explícitas para cada valor exportado.
 > árvore Git **sem** os 14 bytes reais rastreados.
 > O índice normativo v1 (`NBR-000`) está **disponível**: catálogo de autoridade
 > (seção/página/tipo/estado) sem regras executáveis nem transcrição da norma.
+> O envelope comum v1 (`ARCH-001`) está **disponível**: recipiente versionado,
+> JSON canônico, Decimal-string e identidade por conteúdo; payloads de domínio
+> ainda são **planejados**.
 > OPR-PUBLIC-001 criou este histórico público novo, com um único commit raiz
 > sanitizado. O repositório histórico anterior continua separado e privado.
 
@@ -24,6 +27,7 @@ decisões explícitas para cada valor exportado.
 | Scaffold Python 3.12 e gates offline | **Disponível** | Estrutura `src/`/`tests/`, scripts de bootstrap e teste sem rede |
 | Registro determinístico das 14 fontes | **Disponível** | `nbr12721.sources`: IDs lógicos, mapeamento explícito para path físico, manifest canônico |
 | Índice normativo v1 (autoridade) | **Disponível** | `nbr12721.normative` + `registries/normative-reference-index.json` (NBR-000) |
+| Envelope comum de artefatos v1 | **Disponível** | `nbr12721.artifacts` + schema/goldens (ARCH-001); payload de domínio opaco |
 | Inventário público de fixtures privadas | **Disponível** | `manifests/private-fixtures-v1.json` (metadata/hashes; sem bytes) |
 | Helper + materializador privado | **Disponível** | `scripts/private-fixtures/` (XDG; cópias read-only em `inputs/private/`) |
 | Árvore Git sanitizada (sem PDFs/XLSX reais) | **Disponível** | REPO-003B remove os 14 originais da árvore Git rastreada |
@@ -32,12 +36,14 @@ decisões explícitas para cada valor exportado.
 | Workflow CI validate-and-package | **Disponível** | Gates públicos sem store; `artifact.zip` só com árvore sanitizada |
 | Publicação / histórico sanitizado | **Disponível** | OPR-PUBLIC-001 concluída; histórico público independente |
 
-Detalhes técnicos: tasks `REPO-001` … `REPO-003B`, `OPR-PUBLIC-001` e `NBR-000` — ver [ROADMAP.md](ROADMAP.md).
+Detalhes técnicos: tasks `REPO-001` … `REPO-003B`, `OPR-PUBLIC-001`, `NBR-000`
+e `ARCH-001` — ver [ROADMAP.md](ROADMAP.md).
 
 ## O que ainda não funciona
 
 | Capacidade | Status |
 |------------|--------|
+| Payloads semânticos por estágio (extraction/project/NBR/…) | **Planejada** |
 | Leitura/extração de PDF (texto, vetores, OCR) | **Planejada** |
 | Motor normativo e cálculo dos Quadros I/II/IV-B | **Planejada** |
 | Preenchimento e exportação do template XLSX | **Planejada** |
@@ -63,7 +69,8 @@ fontes imutáveis (store privado → inputs/private/ quando required)
 ```
 
 Hoje estão implementados o registro de fontes, o boundary privado, a árvore
-rastreada sanitizada e o catálogo normativo v1 — não o pipeline de domínio.
+rastreada sanitizada, o catálogo normativo v1 e o envelope comum v1 — não o
+pipeline de domínio nem os payloads semânticos de cada estágio.
 
 ## Pré-requisitos
 
@@ -160,8 +167,10 @@ ID lógico → `materialize_path`; não lê XDG nem importa o mecanismo de confi
 | [docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md) | Operadores | Falhas conhecidas e recuperação |
 | [docs/PRIVACY.md](docs/PRIVACY.md) | Todos | Cuidados com dados sensíveis |
 | [docs/NORMATIVE_INDEX.md](docs/NORMATIVE_INDEX.md) | Desenvolvedores / revisores | Uso do índice normativo v1 |
+| [docs/ARTIFACT_VERSIONING.md](docs/ARTIFACT_VERSIONING.md) | Desenvolvedores / revisores | Envelope comum v1 e compatibilidade |
 | [ROADMAP.md](ROADMAP.md) | Planejamento | Milestones, tasks e gates |
-| [docs/tasks/NBR-000.md](docs/tasks/NBR-000.md) | Desenvolvimento | Catálogo normativo (candidate_complete) |
+| [docs/tasks/ARCH-001.md](docs/tasks/ARCH-001.md) | Desenvolvimento | Envelopes (candidate) |
+| [docs/tasks/NBR-000.md](docs/tasks/NBR-000.md) | Desenvolvimento | Catálogo normativo (integrado) |
 
 ## Como relatar um problema
 
