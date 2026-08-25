@@ -11,6 +11,11 @@ python3 --version
 git --version
 bash --version
 command -v sha256sum
+command -v pdfinfo
+command -v pdftotext
+command -v pdffonts
+command -v pdfimages
+command -v pdftocairo
 ```
 
 | Ferramenta | Versão mínima | Observação |
@@ -19,6 +24,7 @@ command -v sha256sum
 | Git | qualquer recente | Controle de versão e snapshot candidato |
 | Bash | qualquer recente | Scripts de configuração das fixtures privadas |
 | sha256sum | GNU/coreutils | Usado pelo materializador/adapter, não pela CI pública |
+| Poppler | provisionado (ex.: 24.02.0) | **Obrigatório** na suíte pública (`unittest` sintético, sem skip) |
 
 Os scripts **não instalam** pacotes nem acessam a internet.
 
@@ -50,7 +56,9 @@ PYTHONPATH=src:scripts/private-fixtures python3 -m unittest discover -s tests -p
 ```
 
 A suíte pública usa fixtures sintéticas/temporárias e **não** depende do
-store real.
+store real. Ela **depende de Poppler local**: os testes sintéticos de
+`tests/test_pdf_profiler.py` invocam `pdfinfo`/`pdftocairo` de verdade e não
+fazem skip.
 
 ## 5. Tasks privadas (`private_fixtures: required`)
 

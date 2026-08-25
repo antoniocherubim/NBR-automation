@@ -1,0 +1,181 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nbr12721.local/schemas/page-profiles-v1.schema.json",
+  "title": "Page profiles payload v1",
+  "$comment": "Unicidade por source_path e page_number é imposta pela extensão x-uniqueProperty (validador stdlib e tests/page_profiles_schema_support.py). uniqueItems sozinho não cobre same-key/different-body.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "payload_version",
+    "coordinate_system",
+    "thresholds",
+    "documents"
+  ],
+  "properties": {
+    "payload_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "coordinate_system": {
+      "$ref": "#/$defs/coordinate_system"
+    },
+    "thresholds": {
+      "$ref": "#/$defs/thresholds"
+    },
+    "documents": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "x-uniqueProperty": "source_path",
+      "items": {
+        "$ref": "#/$defs/document"
+      }
+    }
+  },
+  "$defs": {
+    "decimal_string": {
+      "type": "string",
+      "pattern": "^(?:0|-?(?:0\\.[0-9]*[1-9]|[1-9][0-9]*(?:\\.[0-9]*[1-9])?))$"
+    },
+    "nonneg_int": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "coordinate_system": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["unit", "origin", "x_axis", "y_axis"],
+      "properties": {
+        "unit": { "type": "string", "const": "pt" },
+        "origin": { "type": "string", "const": "bottom-left" },
+        "x_axis": { "type": "string", "const": "right" },
+        "y_axis": { "type": "string", "const": "up" }
+      }
+    },
+    "thresholds": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "low_native_text_word_count",
+        "high_rendered_svg_path_count"
+      ],
+      "properties": {
+        "low_native_text_word_count": { "$ref": "#/$defs/nonneg_int" },
+        "high_rendered_svg_path_count": { "$ref": "#/$defs/nonneg_int" }
+      }
+    },
+    "page_box": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["x0", "y0", "x1", "y1", "width", "height"],
+      "properties": {
+        "x0": { "$ref": "#/$defs/decimal_string" },
+        "y0": { "$ref": "#/$defs/decimal_string" },
+        "x1": { "$ref": "#/$defs/decimal_string" },
+        "y1": { "$ref": "#/$defs/decimal_string" },
+        "width": { "$ref": "#/$defs/decimal_string" },
+        "height": { "$ref": "#/$defs/decimal_string" }
+      }
+    },
+    "probable_origin": {
+      "type": "string",
+      "enum": [
+        "autocad_pdfplot",
+        "pdfium",
+        "other",
+        "absent",
+        "unknown"
+      ]
+    },
+    "flag": {
+      "type": "string",
+      "enum": [
+        "low_native_text",
+        "has_images",
+        "high_rendered_svg_complexity"
+      ]
+    },
+    "page": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "page_number",
+        "media_box",
+        "crop_box",
+        "rotation",
+        "native_word_count",
+        "native_codepoint_count",
+        "native_word_with_bbox_count",
+        "font_count",
+        "embedded_font_count",
+        "subset_font_count",
+        "image_count",
+        "image_width_sum",
+        "image_height_sum",
+        "image_pixel_sum",
+        "rendered_svg_path_count",
+        "rendered_svg_line_count",
+        "rendered_svg_rect_count",
+        "rendered_svg_polyline_count",
+        "rendered_svg_polygon_count",
+        "rendered_svg_circle_count",
+        "rendered_svg_ellipse_count",
+        "probable_origin",
+        "flags"
+      ],
+      "properties": {
+        "page_number": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "media_box": { "$ref": "#/$defs/page_box" },
+        "crop_box": { "$ref": "#/$defs/page_box" },
+        "rotation": {
+          "type": "integer",
+          "enum": [0, 90, 180, 270]
+        },
+        "native_word_count": { "$ref": "#/$defs/nonneg_int" },
+        "native_codepoint_count": { "$ref": "#/$defs/nonneg_int" },
+        "native_word_with_bbox_count": { "$ref": "#/$defs/nonneg_int" },
+        "font_count": { "$ref": "#/$defs/nonneg_int" },
+        "embedded_font_count": { "$ref": "#/$defs/nonneg_int" },
+        "subset_font_count": { "$ref": "#/$defs/nonneg_int" },
+        "image_count": { "$ref": "#/$defs/nonneg_int" },
+        "image_width_sum": { "$ref": "#/$defs/nonneg_int" },
+        "image_height_sum": { "$ref": "#/$defs/nonneg_int" },
+        "image_pixel_sum": { "$ref": "#/$defs/nonneg_int" },
+        "rendered_svg_path_count": { "$ref": "#/$defs/nonneg_int" },
+        "rendered_svg_line_count": { "$ref": "#/$defs/nonneg_int" },
+        "rendered_svg_rect_count": { "$ref": "#/$defs/nonneg_int" },
+        "rendered_svg_polyline_count": { "$ref": "#/$defs/nonneg_int" },
+        "rendered_svg_polygon_count": { "$ref": "#/$defs/nonneg_int" },
+        "rendered_svg_circle_count": { "$ref": "#/$defs/nonneg_int" },
+        "rendered_svg_ellipse_count": { "$ref": "#/$defs/nonneg_int" },
+        "probable_origin": { "$ref": "#/$defs/probable_origin" },
+        "flags": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/flag" }
+        }
+      }
+    },
+    "document": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_path", "pages"],
+      "properties": {
+        "source_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "pages": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "x-uniqueProperty": "page_number",
+          "items": { "$ref": "#/$defs/page" }
+        }
+      }
+    }
+  }
+}

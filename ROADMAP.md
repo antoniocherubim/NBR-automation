@@ -1,14 +1,16 @@
 # ROADMAP — automação determinística da ABNT NBR 12721
 
 Status do documento: **baseline de planejamento + NBR-000 e ARCH-001
-integradas + PDF-001 especificada**
+integradas; PDF-001 `candidate_complete` no worktree (integração pendente)**
 
 Data da inspeção: **2026-08-19**
 Escopo desta versão: arquitetura, pesquisa inicial, milestones, tasks e gates.
 Infraestrutura de fontes (`nbr12721.sources`), índice normativo v1
 (`nbr12721.normative`, NBR-000) e envelope comum v1 (`nbr12721.artifacts`,
-ARCH-001) estão integrados; nenhum runtime de domínio, extração ou pipeline
-foi implementado.
+ARCH-001) estão integrados. O profiler PDF v1 (`nbr12721.pdf`, PDF-001) está
+implementado neste worktree candidato e **ainda não** integrado pelo operador;
+nenhum runtime de extração semântica, domínio ou pipeline completo foi
+implementado.
 
 ## 1. Objetivo e critério de sucesso
 
@@ -77,7 +79,7 @@ Pontos que afetam diretamente o modelo:
 
 - Implantação, estacionamentos e memoriais apresentam somente cerca de 98–101 palavras nativas por prancha, quase todas ligadas às assinaturas/aprovação.
 - As quatro pranchas das torres e os dois cortes têm entre 726 e 1.248 palavras nativas; há rótulos como `SACADA 7,74 M2`, áreas de apartamentos, barriletes e vazios.
-- Pouco texto não significa scan: estacionamentos são fortemente vetoriais e não contêm imagens raster; no memorial coberto, uma conversão experimental para SVG revelou mais de 100 mil paths.
+- Pouco texto não significa scan: estacionamentos são fortemente vetoriais e não contêm imagens raster; no memorial coberto, uma conversão experimental para SVG revelou mais de 100 mil paths. A medição PDF-001 (tags `<path>` completas, Poppler 24.02.0) confirma **100.026** (PL-0005) e **100.012** (PL-0006) paths renderizados.
 - Os memoriais têm tabelas, legendas, totais e contornos visualmente legíveis, mas grande parte do texto CAD foi convertida em geometria/contornos e não aparece em `pdftotext`.
 - O corpus é híbrido: a implantação contém imagens; cada memorial contém uma imagem grande; um corte contém 164 objetos de imagem; várias outras pranchas não contêm imagens.
 - Os memoriais municipais de áreas e as anotações de cômodos são evidência/cross-check, não resultados NBR prontos.
@@ -681,8 +683,8 @@ As fases indicam capacidade, não uma fila estritamente serial. Tasks independen
 
 #### PDF-001 — Profiler de todas as páginas do AY0410
 
-- **Status:** `READY` — especificação executável materializada em
-  `docs/tasks/PDF-001.md`; dependências integradas.
+- **Status:** `CANDIDATE_COMPLETE` — implementação e gates verdes no worktree
+  candidato; **não integrada**. A integração permanece com o operador.
 - **Objective:** caracterizar todas as páginas por texto, vetores, imagens, boxes, rotação e origem provável.
 - **Why it exists:** a escolha de backend deve se basear em sinais mensuráveis, não no nome do arquivo ou em `word_count` isolado.
 - **Scope:** interface de backend, métricas por página, thresholds configurados/explicados e output versionado sobre as 12 pranchas.
@@ -690,9 +692,18 @@ As fases indicam capacidade, não uma fila estritamente serial. Tasks independen
 - **Dependencies:** REPO-002, REPO-003B, OPR-PUBLIC-001 e ARCH-001.
 - **Implementation boundary:** adapter PDF + profiler; sem domínio NBR ou regra AY0410.
 - **Acceptance criteria:** cobre 12/12 páginas; distingue texto, paths e imagens; não classifica estacionamentos vetoriais como scans só por pouco texto; registra backend/versão.
-- **Tests/gates:** PDFs sintéticos text/vector/raster/hybrid, determinismo, corpus completo e hash dos inputs inalterado.
-- **Expected artifacts:** `page-profiles.json`, profiler e relatório do corpus.
-- **Relevant source/reference:** achados §3.3; cascata §4.6.
+- **Tests/gates:** 252 testes unittest OK (69 focados em `test_pdf_profiler`);
+  `profile-ay0410.py --check` OK; fixtures 14/14; árvore pública 117/0;
+  content ID
+  `sha256:356090fb8586d51b912bdaebaf933fb3e4a50de92f2f4372a27e94c979412c7a`.
+- **Expected artifacts:** `profiles/page-profiles.json`, `schemas/page-profiles-v1.schema.json`, `nbr12721.pdf`, guias `docs/PDF_PROFILING.md` e `docs/PDF_CORPUS_PROFILE.md`.
+- **Relevant source/reference:** achados §3.3; cascata §4.6; evidências em `docs/tasks/PDF-001.md`.
+- **Residual risks:** thresholds provisórios; SVG sensível à versão Poppler e a
+  tags que cruzam limites de leitura; stdout no temp restritivo para SVG grande;
+  multipágina suportado, corpus AY0410 12×1 página. Parsers Poppler são
+  fail-closed (truncamento após `</doc>`, múltiplas `<page>` por pedido,
+  `Pages:` duplicados, linhas `pdfimages` incompletas após `bpc`, lixo
+  pós-`</svg>`, registros pdfinfo fora de faixa, symlink na entrada).
 
 #### PDF-002 — Texto nativo e coordenadas normalizadas
 
@@ -1040,10 +1051,10 @@ Estado da infraestrutura e sequência planejada:
 6. `OPR-PUBLIC-001` — histórico público sanitizado (**concluída**);
 7. `NBR-000` — registro de referências normativas (**integrada no commit `8898c97`**);
 8. `ARCH-001` — envelopes e versionamento (**integrada no commit `706ddaa`**);
-9. `PDF-001` — profiler do corpus (**especificação pronta; próxima task**);
+9. `PDF-001` — profiler do corpus (**candidate_complete** no worktree; **não
+   integrado**; integração pendente do operador);
 10. `XLSX-001` — mapa formal do template, após REPO-002/REPO-003B/ARCH-001.
 
 `CORE-001` é a primeira task de domínio e teve suas dependências
-arquiteturais integradas, mas PDF-001 permanece a próxima task da sequência
-operacional. `NBR-002`, `NBR-003`, `NBR-004`, exportação XLSX, OCR e E2E não
+arquiteturais integradas. `PDF-002`, `NBR-002`, `NBR-003`, `NBR-004`, exportação XLSX, OCR e E2E não
 devem ser antecipadas.
