@@ -31,7 +31,8 @@ Todos os links são relativos e funcionam offline.
 
 - [Task ARCH-001](tasks/ARCH-001.md) — envelopes e versionamento (integrado)
 - [Task NBR-000](tasks/NBR-000.md) — índice normativo v1 (integrado)
-- [Task PDF-001](tasks/PDF-001.md) — profiler PDF (`candidate_complete`; não integrado)
+- [Task PDF-001](tasks/PDF-001.md) — profiler PDF (integrado)
+- [Task CORE-001](tasks/CORE-001.md) — evidência e resolução (especificação pronta)
 - [Roadmap](../ROADMAP.md) — ordem, dependências e estado das próximas entregas
 
 ## Estado das funcionalidades
@@ -46,7 +47,7 @@ Todos os links são relativos e funcionam offline.
 | Documentação de usuário | **Disponível** |
 | CI e artifact.zip sanitizado | **Disponível** (sem store; sem `sha256sum -c`) |
 | Histórico / remoto público | **Disponível** (OPR-PUBLIC-001; publicação condicionada a REPO-003B + OPR-PUBLIC-001) |
-| Profiler PDF page-profiles v1 | **Disponível** (PDF-001 candidate; não integrado) |
+| Profiler PDF page-profiles v1 | **Disponível** (PDF-001 integrado) |
 | Extração semântica PDF / OCR | **Planejada** |
 | Motor NBR e Quadros | **Planejada** |
 | Exportação XLSX | **Planejada** |

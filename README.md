@@ -16,8 +16,7 @@ decisões explícitas para cada valor exportado.
 > (seção/página/tipo/estado) sem regras executáveis nem transcrição da norma.
 > O envelope comum v1 (`ARCH-001`) está **disponível**: recipiente versionado,
 > JSON canônico, Decimal-string e identidade por conteúdo.
-> O profiler PDF v1 (`PDF-001`) está **disponível** neste worktree candidato
-> (`candidate_complete`; integração **pendente** do operador): artefato
+> O profiler PDF v1 (`PDF-001`) está **disponível** e integrado: artefato
 > `page-profiles` sobre as 12 pranchas AY0410, backend Poppler (subprocessos
 > com cwd temporário restritivo; rejeição de symlink na entrada; parsers
 > fail-closed para SVG/`pdftotext`/`pdffonts`/`pdfimages`/`pdfinfo` truncados,
@@ -38,7 +37,7 @@ decisões explícitas para cada valor exportado.
 | Registro determinístico das 14 fontes | **Disponível** | `nbr12721.sources`: IDs lógicos, mapeamento explícito para path físico, manifest canônico |
 | Índice normativo v1 (autoridade) | **Disponível** | `nbr12721.normative` + `registries/normative-reference-index.json` (NBR-000) |
 | Envelope comum de artefatos v1 | **Disponível** | `nbr12721.artifacts` + schema/goldens (ARCH-001); payload de domínio opaco |
-| Profiler PDF page-profiles v1 | **Disponível** (candidate; integração pendente) | `nbr12721.pdf`, `profiles/page-profiles.json`, Poppler (PDF-001) |
+| Profiler PDF page-profiles v1 | **Disponível** | `nbr12721.pdf`, `profiles/page-profiles.json`, Poppler (PDF-001) |
 | Inventário público de fixtures privadas | **Disponível** | `manifests/private-fixtures-v1.json` (metadata/hashes; sem bytes) |
 | Helper + materializador privado | **Disponível** | `scripts/private-fixtures/` (XDG; cópias read-only em `inputs/private/`) |
 | Árvore Git sanitizada (sem PDFs/XLSX reais) | **Disponível** | REPO-003B remove os 14 originais da árvore Git rastreada |
@@ -47,8 +46,8 @@ decisões explícitas para cada valor exportado.
 | Workflow CI validate-and-package | **Disponível** | Gates públicos sem store; `artifact.zip` só com árvore sanitizada |
 | Publicação / histórico sanitizado | **Disponível** | OPR-PUBLIC-001 concluída; histórico público independente |
 
-Detalhes técnicos: tasks `REPO-001` … `REPO-003B`, `OPR-PUBLIC-001`, `NBR-000`
-e `ARCH-001` — ver [ROADMAP.md](ROADMAP.md).
+Detalhes técnicos: tasks `REPO-001` … `REPO-003B`, `OPR-PUBLIC-001`,
+`NBR-000`, `ARCH-001` e `PDF-001` — ver [ROADMAP.md](ROADMAP.md).
 
 ## O que ainda não funciona
 
@@ -194,7 +193,8 @@ privado.
 | [ROADMAP.md](ROADMAP.md) | Planejamento | Milestones, tasks e gates |
 | [docs/tasks/ARCH-001.md](docs/tasks/ARCH-001.md) | Desenvolvimento | Envelopes (integrado) |
 | [docs/tasks/NBR-000.md](docs/tasks/NBR-000.md) | Desenvolvimento | Catálogo normativo (integrado) |
-| [docs/tasks/PDF-001.md](docs/tasks/PDF-001.md) | Desenvolvimento | Profiler PDF (`candidate_complete`; não integrado) |
+| [docs/tasks/PDF-001.md](docs/tasks/PDF-001.md) | Desenvolvimento | Profiler PDF (integrado) |
+| [docs/tasks/CORE-001.md](docs/tasks/CORE-001.md) | Desenvolvimento | Evidência e resolução (especificação pronta) |
 
 ## Como relatar um problema
 

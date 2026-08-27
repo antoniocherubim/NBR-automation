@@ -1,16 +1,15 @@
 # ROADMAP — automação determinística da ABNT NBR 12721
 
-Status do documento: **baseline de planejamento + NBR-000 e ARCH-001
-integradas; PDF-001 `candidate_complete` no worktree (integração pendente)**
+Status do documento: **baseline de planejamento + NBR-000, ARCH-001 e PDF-001
+integradas + CORE-001 especificada**
 
 Data da inspeção: **2026-08-19**
 Escopo desta versão: arquitetura, pesquisa inicial, milestones, tasks e gates.
 Infraestrutura de fontes (`nbr12721.sources`), índice normativo v1
 (`nbr12721.normative`, NBR-000) e envelope comum v1 (`nbr12721.artifacts`,
-ARCH-001) estão integrados. O profiler PDF v1 (`nbr12721.pdf`, PDF-001) está
-implementado neste worktree candidato e **ainda não** integrado pelo operador;
-nenhum runtime de extração semântica, domínio ou pipeline completo foi
-implementado.
+ARCH-001) e o profiler PDF v1 (`nbr12721.pdf`, PDF-001) estão integrados.
+Nenhum runtime de extração semântica, domínio ou pipeline completo foi
+implementado; CORE-001 está somente especificada.
 
 ## 1. Objetivo e critério de sucesso
 
@@ -475,7 +474,8 @@ As fases indicam capacidade, não uma fila estritamente serial. Tasks independen
 
 #### CORE-001 — Evidence, ObservedFact, Resolution e DecisionRequirement
 
-- **Status:** `PLANNED`.
+- **Status:** `READY` — especificação executável materializada em
+  `docs/tasks/CORE-001.md`; dependências integradas.
 - **Objective:** formalizar os contratos que separam observação, interpretação, derivação e decisão.
 - **Why it exists:** é a barreira principal contra palpites e perda de proveniência.
 - **Scope:** tagged unions, estados mínimos, confiança de extração/semântica, obrigações, conflitos e questões decidíveis.
@@ -683,8 +683,8 @@ As fases indicam capacidade, não uma fila estritamente serial. Tasks independen
 
 #### PDF-001 — Profiler de todas as páginas do AY0410
 
-- **Status:** `CANDIDATE_COMPLETE` — implementação e gates verdes no worktree
-  candidato; **não integrada**. A integração permanece com o operador.
+- **Status:** `COMPLETE` — implementação integrada pelo operador no commit
+  `8bb22eb`.
 - **Objective:** caracterizar todas as páginas por texto, vetores, imagens, boxes, rotação e origem provável.
 - **Why it exists:** a escolha de backend deve se basear em sinais mensuráveis, não no nome do arquivo ou em `word_count` isolado.
 - **Scope:** interface de backend, métricas por página, thresholds configurados/explicados e output versionado sobre as 12 pranchas.
@@ -696,7 +696,10 @@ As fases indicam capacidade, não uma fila estritamente serial. Tasks independen
   `profile-ay0410.py --check` OK; fixtures 14/14; árvore pública 117/0;
   content ID
   `sha256:356090fb8586d51b912bdaebaf933fb3e4a50de92f2f4372a27e94c979412c7a`.
-- **Expected artifacts:** `profiles/page-profiles.json`, `schemas/page-profiles-v1.schema.json`, `nbr12721.pdf`, guias `docs/PDF_PROFILING.md` e `docs/PDF_CORPUS_PROFILE.md`.
+- **Expected artifacts:** `profiles/page-profiles.json`,
+  `schemas/page-profiles-v1.schema.json`, `nbr12721.pdf`, guias
+  `docs/PDF_PROFILING.md` e `docs/PDF_CORPUS_PROFILE.md` — **integrados na
+  branch canônica**.
 - **Relevant source/reference:** achados §3.3; cascata §4.6; evidências em `docs/tasks/PDF-001.md`.
 - **Residual risks:** thresholds provisórios; SVG sensível à versão Poppler e a
   tags que cruzam limites de leitura; stdout no temp restritivo para SVG grande;
@@ -1051,10 +1054,11 @@ Estado da infraestrutura e sequência planejada:
 6. `OPR-PUBLIC-001` — histórico público sanitizado (**concluída**);
 7. `NBR-000` — registro de referências normativas (**integrada no commit `8898c97`**);
 8. `ARCH-001` — envelopes e versionamento (**integrada no commit `706ddaa`**);
-9. `PDF-001` — profiler do corpus (**candidate_complete** no worktree; **não
-   integrado**; integração pendente do operador);
-10. `XLSX-001` — mapa formal do template, após REPO-002/REPO-003B/ARCH-001.
+9. `PDF-001` — profiler do corpus (**integrada no commit `8bb22eb`**);
+10. `CORE-001` — contratos de evidência e resolução (**especificação pronta;
+    próxima task**);
+11. `XLSX-001` — mapa formal do template, após REPO-002/REPO-003B/ARCH-001.
 
 `CORE-001` é a primeira task de domínio e teve suas dependências
-arquiteturais integradas. `PDF-002`, `NBR-002`, `NBR-003`, `NBR-004`, exportação XLSX, OCR e E2E não
-devem ser antecipadas.
+arquiteturais integradas. `PDF-002`, `NBR-002`, `NBR-003`, `NBR-004`,
+exportação XLSX, OCR e E2E não devem ser antecipadas.
